@@ -2,6 +2,7 @@
 <project version="4">
   <component name="GoLinterSettings">
     <option name="customProjectDir" value="$PROJECT_DIR$/.." />
+    <option name="goLinterExe" value="/usr/local/bin/golangci-lint" />
     <option name="linterSelected" value="true" />
   </component>
 </project>
