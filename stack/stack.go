@@ -1,48 +1,53 @@
 package stack
 
-type Stack struct {
-	items  []int
+import (
+	"github.com/cluster05/dsa/common/errors"
+)
+
+type Stack[T any] struct {
+	items  []T
 	length int
 }
 
-var (
-	InvalidIndex = -999
-)
-
-func NewStack() *Stack {
-	return &Stack{items: []int{}, length: 0}
+func NewStack[T any]() *Stack[T] {
+	return &Stack[T]{items: []T{}, length: 0}
 }
 
-func (s *Stack) Push(item int) {
+func (s *Stack[T]) Push(item T) {
 	s.items = append(s.items, item)
 	s.length = s.length + 1
 }
 
-func (s *Stack) Pop() (int, bool) {
+func (s *Stack[T]) Pop() T {
 	if s.IsEmpty() {
-		return InvalidIndex, false
+		panic(errors.AccessingInvalidMemoryAddress)
 	}
 	top := s.items[s.length-1]
 
 	s.items = s.items[:s.length-1]
 	s.length = s.length - 1
-	return top, true
+	return top
 }
 
-func (s *Stack) Top() (int, bool) {
+func (s *Stack[T]) Top() T {
 	if s.IsEmpty() {
-		return InvalidIndex, false
+		panic(errors.AccessingInvalidMemoryAddress)
 	}
-	return s.items[s.length-1], true
+	return s.items[s.length-1]
 }
 
-func (s *Stack) ElementAt(pos int) (int, bool) {
-	if s.IsEmpty() {
-		return InvalidIndex, false
+func (s *Stack[T]) ElementAt(pos int) T {
+	if s.IsEmpty() || s.length >= pos {
+		panic(errors.AccessingInvalidMemoryAddress)
 	}
-	return s.items[s.length-pos], true
+
+	return s.items[s.length-pos]
 }
 
-func (s *Stack) IsEmpty() bool {
+func (s *Stack[T]) Size() int {
+	return s.length
+}
+
+func (s *Stack[T]) IsEmpty() bool {
 	return s.length == 0
 }
